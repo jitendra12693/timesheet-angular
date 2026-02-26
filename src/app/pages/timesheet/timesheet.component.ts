@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormsModule, Validators, ReactiveFormsModule } 
 import { CommonModule } from '@angular/common';
 import { CommonService } from 'src/app/shared/common.service';
 import { TimesheetService } from 'src/app/shared/timesheet.service';
+import { debounceTime } from 'rxjs';
 
 interface TaskModel {
   name: string;
@@ -55,6 +56,20 @@ export class TimesheetComponent implements OnInit {
       endTime: ['', Validators.required],
       employeeId: ['', Validators.required]
     });
+
+    this.timeSheetForm.get('taskId')?.valueChanges.pipe(
+      debounceTime(400)
+    ).subscribe(value => {
+      if (!value) {
+        this.filteredTasks = [];
+        return;
+      }
+
+      this.filteredTasks = this.taskList.filter(x =>
+        x?.name?.toLowerCase().includes(value.toLowerCase())
+      );
+      this.showDropdown = true;
+    });
   }
 
   showHide() {
@@ -97,15 +112,6 @@ export class TimesheetComponent implements OnInit {
     this._commonService.getAllEmployee().subscribe((result: any) => {
       this.employeeList = result;
     });
-  }
-
-  onTaskSearch(event: any) {
-    const value = event.target.value.toLowerCase();
-    this.selectedTaskName = event.target.value;
-    this.filteredTasks = this.taskList.filter(x =>
-      x.name.toLowerCase().includes(value)
-    );
-    this.showDropdown = true;
   }
 
   selectTask(task: TaskModel) {
