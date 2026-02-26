@@ -2,7 +2,8 @@
     <div class="card">
         <div class="card-header">
             Timesheet
-            <button class ="btn btn-primary float-right" type="button" style="float:right;" (click)="showHide()">Update Timesheet</button>
+            <button class="btn btn-primary float-right" type="button" style="float:right;" (click)="showHide()">Update
+                Timesheet</button>
         </div>
         <div class="card-body">
             <div *ngIf="isShowForm">
@@ -13,8 +14,7 @@
                             <div class="col-md-2">
                                 <label class="form-label">Task</label>
                                 <input type="text" class="form-control" [value]="selectedTaskName"
-                                     (focus)="showDropdown=true" placeholder="Search task"
-                                    formControlName="taskId">
+                                    (focus)="showDropdown=true" placeholder="Search task" formControlName="taskId">
 
                                 <!-- Dropdown -->
                                 <ul class="list-group position-absolute w-100 shadow" *ngIf="showDropdown">
@@ -27,18 +27,18 @@
                                 <!-- <input type="text" class="form-control" formControlName="taskId" placeholder="Enter task"> -->
                             </div>
                             <div class="col-md-2">
-                                <label class="form-label" >Employee</label>
+                                <label class="form-label">Employee</label>
                                 <select class="form-control" formControlName="employeeId">
                                     <option value="">Select Employee</option>
                                     <option *ngFor="let emp of employeeList" [value]="emp.id">{{emp.name}}</option>
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label class="form-label">Start</label>
                                 <input type="datetime-local" class="form-control" formControlName="startTime">
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label class="form-label">End</label>
                                 <input type="datetime-local" class="form-control" formControlName="endTime">
                             </div>
@@ -48,7 +48,11 @@
                                     Save
                                 </button>
                             </div>
-
+                            <div class="col-md-2">
+                                <button class="btn btn-danger w-100" type="button" (click)="showHide()" >
+                                    Cancel
+                                </button>
+                            </div>
                         </div>
 
                     </div>

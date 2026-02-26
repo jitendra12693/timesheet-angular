@@ -1,0 +1,118 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h3 class="mb-0">Employee Registration</h3>
+        </div>
+        <div class="card-body">
+          <!-- Success Message -->
+          <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ successMessage }}
+            <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+          </div>
+
+          <!-- Error Message -->
+          <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ errorMessage }}
+            <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+          </div>
+
+          <!-- Registration Form -->
+          <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+            <!-- Employee Code -->
+            <div class="mb-3">
+              <label for="code" class="form-label">Employee Code <span class="text-danger">*</span></label>
+              <input
+                type="text"
+                class="form-control"
+                id="code"
+                formControlName="code"
+                placeholder="Enter employee code"
+                [class.is-invalid]="isSubmitted && code?.invalid"
+              />
+              <div *ngIf="isSubmitted && code?.invalid" class="invalid-feedback">
+                <small *ngIf="code?.errors?.['required']">Employee code is required</small>
+              </div>
+            </div>
+
+            <!-- Employee Name -->
+            <div class="mb-3">
+              <label for="name" class="form-label">Employee Name <span class="text-danger">*</span></label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                formControlName="name"
+                placeholder="Enter employee name"
+                [class.is-invalid]="isSubmitted && name?.invalid"
+              />
+              <div *ngIf="isSubmitted && name?.invalid" class="invalid-feedback">
+                <small *ngIf="name?.errors?.['required']">Employee name is required</small>
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                formControlName="password"
+                placeholder="Enter password (min 6 characters)"
+                [class.is-invalid]="isSubmitted && password?.invalid"
+              />
+              <div *ngIf="isSubmitted && password?.invalid" class="invalid-feedback">
+                <small *ngIf="password?.errors?.['required']">Password is required</small>
+                <small *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters</small>
+              </div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">Confirm Password <span class="text-danger">*</span></label>
+              <input
+                type="password"
+                class="form-control"
+                id="confirmPassword"
+                formControlName="confirmPassword"
+                placeholder="Re-enter password"
+                [class.is-invalid]="isSubmitted && (confirmPassword?.invalid || registrationForm?.errors?.['passwordMismatch'])"
+              />
+              <div *ngIf="isSubmitted && confirmPassword?.invalid" class="invalid-feedback">
+                <small *ngIf="confirmPassword?.errors?.['required']">Confirm password is required</small>
+              </div>
+              <div *ngIf="isSubmitted && registrationForm?.errors?.['passwordMismatch']" class="invalid-feedback" style="display: block;">
+                <small>Passwords do not match</small>
+              </div>
+            </div>
+
+            <!-- Submit and Reset Buttons -->
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="onReset()"
+                [disabled]="isLoading"
+              >
+                Reset
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="isLoading"
+              >
+                <span *ngIf="!isLoading">Register</span>
+                <span *ngIf="isLoading">
+                  <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  Registering...
+                </span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
