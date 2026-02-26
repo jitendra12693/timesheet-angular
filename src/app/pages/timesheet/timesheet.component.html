@@ -1,0 +1,80 @@
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            Timesheet
+            <button class ="btn btn-primary float-right" type="button" style="float:right;" (click)="showHide()">Update Timesheet</button>
+        </div>
+        <div class="card-body">
+            <div *ngIf="isShowForm">
+                <form [formGroup]="timeSheetForm" (ngSubmit)="saveTask($event)">
+                    <div class="card p-3 mb-4 shadow-sm">
+                        <div class="row g-3 align-items-end">
+
+                            <div class="col-md-2">
+                                <label class="form-label">Task</label>
+                                <input type="text" class="form-control" [value]="selectedTaskName"
+                                    (input)="onTaskSearch($event)" (focus)="showDropdown=true" placeholder="Search task"
+                                    formControlName="taskId">
+
+                                <!-- Dropdown -->
+                                <ul class="list-group position-absolute w-100 shadow" *ngIf="showDropdown">
+                                    <li class="list-group-item list-group-item-action"
+                                        *ngFor="let task of filteredTasks" (click)="selectTask(task)"
+                                        style="cursor:pointer">
+                                        {{task.name}}
+                                    </li>
+                                </ul>
+                                <!-- <input type="text" class="form-control" formControlName="taskId" placeholder="Enter task"> -->
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label" >Employee</label>
+                                <select class="form-control" formControlName="employeeId">
+                                    <option value="">Select Employee</option>
+                                    <option *ngFor="let emp of employeeList" [value]="emp.id">{{emp.name}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Start</label>
+                                <input type="datetime-local" class="form-control" formControlName="startTime">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">End</label>
+                                <input type="datetime-local" class="form-control" formControlName="endTime">
+                            </div>
+
+                            <div class="col-md-2">
+                                <button class="btn btn-primary w-100" type="submit" [disabled]="timeSheetForm.invalid">
+                                    Save
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="card shadow-sm" *ngIf="!isShowForm">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Task</th>
+                            <th>Start</th>
+                            <th>End</th>
+                            <th>Employee</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of timesheetList">
+                            <td>{{item.taskName}}</td>
+                            <td>{{item.startTime | date:'medium'}}</td>
+                            <td>{{item.endTime | date:'medium'}}</td>
+                            <td>{{item.employeeName}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { TimesheetComponent } from './pages/timesheet/timesheet.component';
 
 const routes: Routes = [
   { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
@@ -8,6 +9,10 @@ const routes: Routes = [
     redirectTo: '/dashboard',
     pathMatch: 'full'
   },
+  {
+    path:"timesheet",
+    component:TimesheetComponent
+  }
 ];
 
 @NgModule({
